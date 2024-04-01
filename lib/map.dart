@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
@@ -10,12 +9,12 @@ class MapScreen extends StatelessWidget {
   final double? longitude;
 
   const MapScreen({
-    Key? key,
+    super.key,
     this.name,
     this.lastName,
     this.latitude,
     this.longitude,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

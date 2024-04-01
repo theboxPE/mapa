@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:mapa/Map.dart';
-
 class InputScreen extends StatefulWidget {
-  const InputScreen({super.key});
+  const InputScreen({super.key}); 
 
   @override
   InputScreenState createState() => InputScreenState();
@@ -45,7 +45,7 @@ class InputScreenState extends State<InputScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validación de datos
                 if (nameController.text.isEmpty ||
                     lastNameController.text.isEmpty ||
@@ -70,14 +70,21 @@ class InputScreenState extends State<InputScreen> {
                   );
                 } else {
                   // Navegar a la pantalla del mapa
+                  double latitude = double.tryParse(latitudeController.text) ?? 0;
+                  double longitude = double.tryParse(longitudeController.text) ?? 0;
+                  String name = nameController.text;
+                  String lastName = lastNameController.text;
+                  String address = await _getAddressFromLatLng(latitude, longitude);
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => MapScreen(
-                        name: nameController.text,
-                        lastName: lastNameController.text,
-                        latitude: double.parse(latitudeController.text),
-                        longitude: double.parse(longitudeController.text),
+                        name: name,
+                        lastName: lastName,
+                        latitude: latitude,
+                        longitude: longitude,
+                        address: address,
                       ),
                     ),
                   );
@@ -89,5 +96,16 @@ class InputScreenState extends State<InputScreen> {
         ),
       ),
     );
+  }
+}
+
+Future<String> _getAddressFromLatLng(double lat, double lng) async {
+  try {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lng);
+    Placemark first = placemarks.first;
+    return '${first.locality ?? ''}, ${first.country ?? ''}';
+  } catch (e) {
+    Text('Error al obtener la dirección: $e');
+    return 'Dirección no disponible';
   }
 }

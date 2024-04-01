@@ -17,7 +17,7 @@ class LocationData {
     required this.longitude,
   });
 }
-
+//Gabriel A. Perez Regalado(2022-0332)
 class MapScreen extends StatelessWidget {
   final LocationData locationData;
 
@@ -110,7 +110,7 @@ class MapScreen extends StatelessWidget {
     );
   }
 }
-
+//Gabriel A. Perez Regalado(2022-0332)
 class InputScreen extends StatefulWidget {
   const InputScreen({super.key});
 
@@ -222,7 +222,7 @@ class LocationInputScreenState extends State<InputScreen> {
     );
   }
 }
-
+//Gabriel A. Perez Regalado(2022-0332)
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
